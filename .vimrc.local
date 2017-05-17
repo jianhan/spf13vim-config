@@ -1,0 +1,182 @@
+" --------------------------General Usebility-----------------------
+" Previous buffer
+nmap <c-Tab> :bp<cr>
+
+" Next buffer
+nmap <c-S-Tab> :bn<cr>
+
+"Map leader key from \ to comma, it is more natural
+let mapleader = ','
+
+" Make backspace behave like every other editor.
+set backspace=indent,eol,start
+
+
+
+
+"---------------------------Plugins------------------------
+"/
+"/ CtrP
+"/
+" Show all methods in a function/ class
+nmap <c-R> :CtrlPBufTag<cr>
+" Most Recent Files
+nmap <c-e> :CtrlPMRUFiles<cr>
+let g:ctrlp_extension = ['buffertag']
+"set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = 'node_modules\DS_Store\|git'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+let g:ctrlp_match_window = 'top,order:tbb,min:1,max:30,results:30'
+
+"/
+"/ NerdTREE
+"/
+let NERDTreeHijackNetrw=0
+silent! map <F3> :NERDTreeToggle<CR>
+
+" Automatcially enter directory when bookmark was clicked
+let NERDTreeChDirMode=2
+
+" Automatically start NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" Automatically delete the buffer of the file you just deleted with NerdTree:
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
+"/
+"/ CTags
+"/
+set tags=./tags,tags
+
+"---------------------------------------Visuals-----------------------------------
+colorscheme atom-dark
+set guifont=Consolas:h13
+set linespace=15
+"vim提示信息乱码的解决
+language messages zh_CN.utf-8
+
+"vim的菜单乱码解决
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+"设置文件的代码形式 utf8
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,chinese,cp936
+
+set hlsearch "高亮显示查找结果
+set incsearch "增量查找
+"no gui tabs
+set guioptions-=e
+
+"line background color
+hi LIneNr guibg=grey
+
+
+
+"---------------------------------------mapping-----------------------------------
+" nmap means normal mode, imap means insert mode
+nmap ,ev :tabedit ~/.vimrc.local<cr>
+
+
+
+
+
+"---------------------------------------Split management-----------------------------------
+" To ensure that every time vertical split, it will open below and on the
+" right hand side of current one
+set splitbelow
+set splitright
+nmap <C-J> <C-W><C-J>
+nmap <C-K> <C-W><C-K>
+nmap <C-H> <C-W><C-H>
+nmap <C-L> <C-W><C-L>
+
+
+
+
+
+"---------------------------------------auto command-----------------------------------
+" Automatically source vimrc file when updated
+augroup autosourcing
+    "clear out the group, no duplicate
+    autocmd!
+    autocmd BufWritePost .vimrc.local source %
+augroup END
+
+"-------------------------Laravel Specific---------------------------
+"nmap <Leader>lrw :e app/routes/web.php<cr>
+
+
+
+
+
+" Cool Tricks
+" zz (bring current line to center of the screen)
+" :ls (list all buffers)
+" with in a bracket or block, if want to delete every inside a brack or block, 
+" di( -- delete inside (
+" ci( -- change insdie ()
+" di{ -- delete inside {
+" vi ( -- same idea
+" va( -- same idea -- including the (
+"
+" Hight light entire line
+" Shift+q
+"
+" Repeat previous command 
+" .
+" Quick Search Current Word
+" Mouse over a word press shift #, then it will search for current word
+"
+" DELETE IN WORD
+" diw
+"
+" CHANGE IN WORD, no matter where mouse is 
+" caw
+" 
+" Yank all text with in ()
+" yi)
+"
+" DELETE UNTIL a character or (
+" dt(
+"
+" Change and Insert will change everything with in a single quote
+" ci' 
+"
+" Wrap a text with something, below example is wrap text with single quote
+" ysiw '
+"
+" Search example
+"
+" search and replace in a file :g flag means search and replace all, c means confirm
+" %s/foo/bar/gc
+" %s/foo/bar/gc
+"
+" To search in directory.
+":vimgrep /foo/ ./**/*.php | copen
+"
+"-------------------------Macro---------------------------
+"Record a macro, press q+register, for instance qw. Only use marco when . is
+"not applicable Example below
+" test = 123
+" tes2 = 123
+" test3 = 123
+" test4 = 123
+" Suppose we want to change all those above into var test = 123; 
+" Step 1 press qw
+" Step 2 change the first one to be "var test = 123;"
+" Step 3 hit q to exit marco
+" Step 4 shit v on line 2, then jj down to the last one
+" Step 5 type :normal @w
+"
