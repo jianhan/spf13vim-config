@@ -77,12 +77,15 @@ set fileencodings=ucs-bom,utf-8,chinese,cp936
 set hlsearch "高亮显示查找结果
 set incsearch "增量查找
 "no gui tabs
-set guioptions-=e
+
 
 "line background color
 hi LIneNr guibg=grey
 
-
+"no gui tabs
+set guioptions-=m
+:set guioptions-=r  "remove right-hand scroll bar
+:set guioptions-=L  "remove left-hand scroll bar
 
 "---------------------------------------mapping-----------------------------------
 " nmap means normal mode, imap means insert mode
